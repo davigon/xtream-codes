@@ -1,5 +1,10 @@
 import React from "react"
+import { Page } from "./Page"
 
 export const NotFoundPage = () => {
-  return <h1>Not found</h1>
+  return (
+    <Page>
+      <h1>Not found</h1>
+    </Page>
+  )
 }
