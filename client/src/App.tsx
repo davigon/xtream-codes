@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom"
 import { Footer } from "./components/Footer"
 import { Navbar } from "./components/Navbar"
 import { HomePage } from "./pages/HomePage"
+import { XtreamCodesDataPage } from "./pages/XtreamCodesDataPage"
 import { NotFoundPage } from "./pages/NotFoundPage"
 import theme from "./theme"
 import { QueryClient, QueryClientProvider } from "react-query"
@@ -27,6 +28,7 @@ export const App = () => {
           <main className="Main">
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/data" element={<XtreamCodesDataPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </main>
