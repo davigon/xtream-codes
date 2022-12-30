@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Page } from "./Page"
 import {
   VStack,
@@ -9,9 +9,18 @@ import {
   Stat,
   StatLabel,
   StatNumber,
+  GridItem,
+  CardHeader,
+  Heading,
+  Input,
+  InputGroup,
+  Icon,
+  InputLeftElement,
 } from "@chakra-ui/react"
+import { TbSearch } from "react-icons/tb"
 import { useSearchParams } from "react-router-dom"
 import { useXtreamCodes } from "../hooks/useXtreamCodes"
+import { CategoryFilter } from "../components/CategoryFilter"
 
 export const XtreamCodesDataPage = () => {
   const [searchParams] = useSearchParams()
@@ -21,6 +30,8 @@ export const XtreamCodesDataPage = () => {
     username: searchParams.get("username") || undefined,
     password: searchParams.get("password") || undefined,
   })
+  const [name, setName] = useState("")
+  const [checkedSubcategories, setCheckedSubcategories] = useState<string[]>([])
 
   if (isLoading) return <>cargando</>
 
@@ -28,7 +39,7 @@ export const XtreamCodesDataPage = () => {
 
   return (
     <Page>
-      <VStack py={4} spacing={4}>
+      <VStack py={4} spacing={2}>
         <Container
           as={Grid}
           maxW="container.xl"
@@ -123,6 +134,45 @@ export const XtreamCodesDataPage = () => {
               <StatNumber fontSize={"xl"} fontWeight={"medium"}>
                 {Object.keys(data.available_channels).length}
               </StatNumber>
+            </CardBody>
+          </Card>
+        </Container>
+        <Container
+          as={Grid}
+          maxW={"container.xl"}
+          gridTemplateColumns={{ base: "1", md: "15rem auto" }}
+          gap={2}
+        >
+          <Card as={GridItem}>
+            <CardHeader>
+              <Heading size={"md"}>Filtros</Heading>
+            </CardHeader>
+            <CardBody as={VStack} gap={2} alignItems={"start"}>
+              <InputGroup>
+                <InputLeftElement>
+                  <Icon as={TbSearch} />
+                </InputLeftElement>
+                <Input
+                  type={"text"}
+                  placeholder="Introduce canal"
+                  value={name}
+                  onChange={(e) => setName(e.currentTarget.value)}
+                />
+              </InputGroup>
+              <CategoryFilter
+                categories={Object.fromEntries(
+                  Object.keys(data.categories).map((category) => {
+                    return [
+                      category,
+                      data.categories[category].map(
+                        (subcategory) => subcategory.category_name
+                      ),
+                    ]
+                  })
+                )}
+                checkedSubcategories={checkedSubcategories}
+                setCheckedSubcategories={setCheckedSubcategories}
+              />
             </CardBody>
           </Card>
         </Container>
