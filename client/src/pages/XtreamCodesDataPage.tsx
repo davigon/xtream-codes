@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Page } from "./Page"
 import {
   VStack,
@@ -21,6 +21,7 @@ import { TbSearch } from "react-icons/tb"
 import { useSearchParams } from "react-router-dom"
 import { useXtreamCodes } from "../hooks/useXtreamCodes"
 import { CategoryFilter } from "../components/CategoryFilter"
+import { Channels } from "../components/Channels"
 
 export const XtreamCodesDataPage = () => {
   const [searchParams] = useSearchParams()
@@ -32,6 +33,15 @@ export const XtreamCodesDataPage = () => {
   })
   const [name, setName] = useState("")
   const [checkedSubcategories, setCheckedSubcategories] = useState<string[]>([])
+
+  useEffect(() => {
+    if (data && Object.keys(data.categories).length > 0)
+      setCheckedSubcategories(
+        data.categories[Object.keys(data.categories)[0]].map(
+          (subcategory) => subcategory.category_name
+        )
+      )
+  }, [data])
 
   if (isLoading) return <>cargando</>
 
@@ -172,6 +182,20 @@ export const XtreamCodesDataPage = () => {
                 )}
                 checkedSubcategories={checkedSubcategories}
                 setCheckedSubcategories={setCheckedSubcategories}
+              />
+            </CardBody>
+          </Card>
+          <Card as={GridItem}>
+            <CardHeader>
+              <Heading size={"md"}>Canales</Heading>
+            </CardHeader>
+            <CardBody>
+              <Channels
+                channels={Object.keys(data.available_channels).map(
+                  (c) => data.available_channels[c]
+                )}
+                selectedSubcategories={checkedSubcategories}
+                name={name}
               />
             </CardBody>
           </Card>
