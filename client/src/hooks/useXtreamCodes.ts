@@ -1,6 +1,8 @@
 import { useQuery, UseQueryResult } from "react-query"
 import { XtreamCodesData } from "../types/types"
 
+const apiUrl = import.meta.env.VITE_API_URL + "/api"
+
 export type UseXtreamCodesParams = {
   host?: string
   port?: string
@@ -24,7 +26,7 @@ export const useXtreamCodes = (params: UseXtreamCodesParams) => {
     }
 
     const response = await fetch(
-      `/api/xtream-codes?host=${host}&port=${port}&username=${username}&password=${password}`
+      `${apiUrl}/xtream-codes?host=${host}&port=${port}&username=${username}&password=${password}`
     )
 
     if (response.status === 400)
