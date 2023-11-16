@@ -32,8 +32,8 @@ import {
 import { useSearchParams } from "react-router-dom"
 import { Channel } from "../types/types"
 import { TbClipboard } from "react-icons/tb"
-import InfiniteScroll from "react-infinite-scroller"
-import { useScrollConstData } from "../hooks/useScrollConstData"
+import { Pagination } from "./Pagination"
+import { usePaginateConstData } from "../hooks/usePaginateConstData"
 
 export const Channels = ({
   channels,
@@ -45,6 +45,7 @@ export const Channels = ({
   name: string
 }) => {
   const applyFilters = (channels: Channel[]) => {
+    console.log("apply filters!")
     return channels
       .filter((c) => selectedSubcategories.includes(c.category_name))
       .filter((c) =>
@@ -54,24 +55,26 @@ export const Channels = ({
       )
   }
 
-  const { data, hasMore, loadMoreData } = useScrollConstData(channels)
+  const { data, page, totalPages, changePage } = usePaginateConstData(
+    channels,
+    12,
+    applyFilters
+  )
 
   return (
-    <InfiniteScroll
-      hasMore={hasMore}
-      loader={
-        <Center my={4}>
-          <Spinner thickness="4px" speed="0.65s" color="blue.500" size="lg" />
-        </Center>
-      }
-      loadMore={loadMoreData}
-    >
+    <Flex flexDirection="column" gap={6}>
       <Grid templateColumns="repeat(auto-fill, minmax(12rem, 1fr))" gap={4}>
-        {applyFilters(data).map((c) => {
+        {data.map((c) => {
           return <ChannelCard key={c.stream_id} channel={c} />
         })}
       </Grid>
-    </InfiniteScroll>
+      <Pagination
+        currentPage={page}
+        totalPages={totalPages}
+        onChange={changePage}
+        loading={false}
+      />
+    </Flex>
   )
 }
 
