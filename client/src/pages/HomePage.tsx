@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardBody,
   Heading,
+  Text,
   Center,
   SimpleGrid,
 } from "@chakra-ui/react"
@@ -30,13 +31,24 @@ export const HomePage = () => {
       bg={useColorModeValue("gray.50", "gray.900")}
       h={"calc(100vh - 8rem)"}
       p={4}
+      flexDirection={"column"}
       align={"center"}
       justify={"center"}
+      gap={10}
     >
+      <Heading
+        fontWeight={700}
+        fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
+        lineHeight={"110%"}
+        textAlign={"center"}
+      >
+        Visualiza la información <br />
+        de tu cuenta de
+        <Text as={"span"} color={"blue.500"}>
+          {" Xtream Codes"}
+        </Text>
+      </Heading>
       <Card as={Container} maxW={"container.lg"}>
-        <CardHeader as={Center}>
-          <Heading size="md">Comprueba tu cuenta IPTV</Heading>
-        </CardHeader>
         <CardBody
           as={SimpleGrid}
           columns={{
