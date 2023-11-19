@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Page } from "./Page"
+import { LoadingPage } from "./LoadingPage"
 import {
   VStack,
   Container,
@@ -43,7 +44,7 @@ export const XtreamCodesDataPage = () => {
       )
   }, [data])
 
-  if (isLoading) return <>cargando</>
+  if (isLoading) return <LoadingPage />
 
   if (isError || data === undefined) return <>{error?.message}</>
 
